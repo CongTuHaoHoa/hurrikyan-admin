@@ -1,0 +1,27 @@
+.loader
+{
+  position: fixed;
+  z-index: 9999;
+  top: -7px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-image: linear-gradient(90deg, #5512B3, #D366FC, #5512B3);
+  background-size: 500%;
+  box-shadow: 0 0 5px #D366FC;
+  animation: loader 5s infinite linear;
+  transition: 0.1s;
+
+  &-show
+  {
+    top: 0;
+  }
+}
+
+@keyframes loader
+{
+  100%
+  {
+    background-position: 500%;
+  }
+}
