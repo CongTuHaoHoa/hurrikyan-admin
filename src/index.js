@@ -12,28 +12,24 @@ const store = createStore(reducer)
 const theme = createTheme({
     palette:
     {
-        type: 'dark',
         primary:
-        {
-            main: '#D366FC'
-        },
-        secondary:
         {
             main: '#5512B3'
         },
-        text :
+        secondary:
         {
-            primary: '#FFFFFF',
+            main: '#1FCAFF'
         },
-        background:
+        error:
         {
-            default: '#17011C',
-            paper: '#17011C'
+            main: '#E01079'
+        },
+        text:
+        {
+            primary: '#5512B3'
+            // default: '#17011C',
+            // paper: '#17011C'
         }
-    },
-    shape:
-    {
-        borderRadius: 30
     },
     typography:
     {

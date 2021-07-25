@@ -1,5 +1,5 @@
 const constants = require('../reducer/types')
-const initState = { title : 'Hurrikyan | Công Tử Hào Hoa', path : '/' }
+const initState = { title : 'Hurrikyan', path : '/' }
 
 const reducers = (state = initState, action) =>
 {
