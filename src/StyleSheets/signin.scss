@@ -7,6 +7,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    form
+    {
+      height: fit-content;
+      margin: 0 10px;
+      transition: 0.3s;
+    }
+
+    &-switch
+    {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 320px;
+      overflow: hidden;
+
+      &-on
+      {
+        margin-left: -310px !important;
+      }
+    }
   }
 
   &-control
@@ -14,11 +35,12 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 200px;
+    width: 300px;
 
     & > *
     {
       width: 100%;
+      margin: 5px 0 !important;
     }
   }
 }

@@ -11,7 +11,8 @@ import Message from "./Message";
 import Request from "./Request";
 import Settings from "./Settings";
 import Education from "./Education";
-import { createRef } from "react";
+import {createRef, useEffect} from "react";
+import API from "../../Config/api"
 
 const Home = (props) =>
 {
@@ -29,6 +30,21 @@ const Home = (props) =>
     }
 
     const is = path => props.title.path === path
+
+    const signOut = () =>
+    {
+        props.setLoader(true)
+        API.DELETE('hurrikyan/signin').then(() =>
+        {
+            props.setSignIn(false)
+        })
+    }
+
+    useEffect(() =>
+    {
+        props.setLoader(false)
+        // eslint-disable-next-line
+    }, [])
 
     return  <>
         <UI.AppBar position="fixed" className='appbar'>
@@ -78,7 +94,7 @@ const Home = (props) =>
                 </UI.ListItem>
             </UI.List>
             <UI.List>
-                <UI.ListItem button onClick={ () => changePath('/signin') }>
+                <UI.ListItem button onClick={ signOut }>
                     <UI.ListItemIcon><Icon.PowerSettingsNew color='error'/></UI.ListItemIcon>
                     <UI.ListItemText primary='Đăng xuất'/>
                 </UI.ListItem>
@@ -118,7 +134,8 @@ const mapDispatchToProps = (dispatch) =>
 {
     return {
         setTitle : (value) => { dispatch(actionTitle.setTitle(value)) },
-        setLoader : (value) => { dispatch(actionLoader.setLoaded(value)) }
+        setLoader : (value) => { dispatch(actionLoader.setLoaded(value)) },
+        setSignIn : (value) => { dispatch(actionLoader.setSignIn(value)) }
     }
 }
 
