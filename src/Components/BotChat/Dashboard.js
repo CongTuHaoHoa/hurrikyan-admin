@@ -1,42 +1,107 @@
+import * as UI from '@material-ui/core'
 import * as Icon from '@material-ui/icons'
-import * as Constance from '../../Config/constance'
-import convertDateTime from '../../Config/convertDateTime'
+import { useEffect, useState } from "react"
+import API from "../../Config/api"
+import * as actionLoader from "../../Redux/actions/loader"
+import { connect } from "react-redux"
 
 const Dashboard = (props) =>
 {
-    const { type, date } = props
-    const info = props.children
+    const [appState, setAppState] = useState([])
+    const [status, setStatus] = useState('stop')
 
-    const renderIcon = () =>
+    const onChange = (event) =>
     {
-        switch (type)
+        if (event.target.files && event.target.files[0])
         {
-            case Constance.BOTCHAT_RECEIVED : return <Icon.CallReceived/>
-            case Constance.BOTCHAT_GROUP : return <Icon.Group/>
-            case Constance.BOTCHAT_SEND : return <Icon.CallMade/>
-            case Constance.BOTCHAT_POWER : return <Icon.Power/>
-            default: return null
-        }
-    }
-    const getColor = () =>
-    {
-        switch (type)
-        {
-            case Constance.BOTCHAT_RECEIVED : return 'received'
-            case Constance.BOTCHAT_GROUP : return 'group'
-            case Constance.BOTCHAT_SEND : return 'send'
-            case Constance.BOTCHAT_POWER : return 'power'
-            default: return null
+            const reader = new FileReader()
+            reader.readAsText(event.target.files[0], "UTF-8");
+            reader.onload = (e) => readCookies(e.target.result)
         }
     }
 
-    return  <div className={`botchat-dashboard botchat-dashboard-${ getColor() }`}>
-        { renderIcon() }
+    const readCookies = (data) =>
+    {
+        const { cookies } = JSON.parse(data)
+
+        setAppState(cookies.map(c =>
+        {
+            const { domain, path, value } = c
+            const key = c.name
+            return { domain, path, value, key }
+        }))
+    }
+
+    useEffect(() =>
+    {
+        if (appState.length)
+        {
+            props.setLoaded(true)
+            API.PATCH('botchat', { appState }).then(() => props.setLoaded(false))
+        }
+        // eslint-disable-next-line
+    }, [appState])
+
+    const onBotchatStatus = data => setStatus(data)
+
+    useEffect(() =>
+    {
+        props.setLoaded(true)
+
+        API.GET('botchat').then(r =>
+        {
+            if (!r.errors) setStatus(r.status)
+            props.setLoaded(false)
+        })
+        props.socket.on('botchat-status', onBotchatStatus)
+        // eslint-disable-next-line
+    }, [])
+
+    const start = () =>
+    {
+        props.setLoaded(true)
+
+        API.POST('botchat').then(r =>
+        {
+            props.setLoaded(false)
+        })
+    }
+
+    return  <div className='botchat-dashboard'>
         <div>
-            <p>{ convertDateTime(date) }</p>
-            <h3>{ info }</h3>
+            <span className={ `botchat-dashboard-${ status }` }/>
+            { status !== 'start' ?
+                <UI.Button disabled={ props.loader || status === 'pending' } onClick={ start } component="span" variant='contained' color='primary'>
+                    Khởi chạy
+                    {
+                        props.loader || status === 'pending' ? <UI.CircularProgress size={ 20 } color='inherit' style={ { marginLeft : 10 } }/>
+                            : <Icon.PlayArrow style={ { marginLeft : 10 } }/>
+                    }
+                </UI.Button>
+                : null }
+            <label htmlFor={ props.loader || status === 'pending' ? '' : '---icon-button-file' }>
+                <UI.Button disabled={ props.loader || status === 'pending' } component="span" variant='contained' color='primary'>
+                    Nạp cookies
+                    {
+                        props.loader || status === 'pending' ? <UI.CircularProgress size={ 20 } color='inherit' style={ { marginLeft : 10 } }/>
+                            : <Icon.SystemUpdateAlt style={ { marginLeft : 10 } }/>
+                    }
+                </UI.Button>
+            </label>
+            <input accept='application/JSON' onChange={ onChange } id="---icon-button-file" type="file" />
         </div>
     </div>
 }
 
-export default Dashboard
+const mapStateToProps = (state) =>
+{
+    return { socket: state.socket, loader: state.loader.loader }
+}
+
+const mapDispatchToProps = (dispatch) =>
+{
+    return { setLoaded : (value) => { dispatch(actionLoader.setLoaded(value)) } }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
+

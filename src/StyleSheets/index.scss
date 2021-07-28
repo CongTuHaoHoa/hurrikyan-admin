@@ -49,14 +49,39 @@ input[type=password]::-ms-clear
   font-family: 'Montserrat', serif;
 }
 
+input[type=number]
+{
+  &::-webkit-inner-spin-button, &::-webkit-outer-spin-button
+  {
+    -webkit-appearance: none;
+  }
+}
+
 .appbar
 {
   left: 55px !important;
   width: calc(100vw - 55px) !important;
 
+  &-title
+  {
+    display: flex;
+    align-items: center;
+
+    svg
+    {
+      margin-right: 20px;
+      @include tablet { display: none }
+    }
+
+    h6
+    {
+      @include mobile { display: none }
+    }
+  }
   &-search
   {
     background: #FFFFFF90;
+
     border-radius: 5px;
     height: 30px;
     display: flex;
@@ -66,12 +91,17 @@ input[type=password]::-ms-clear
     overflow: hidden;
     box-shadow: 0 0 5px #00000060;
     cursor: text;
+    transition: 0.3s;
+
+    @include mobile { position: fixed; padding-right: 0 }
+
+    right: 20px;
 
     input
     {
-      @include desktop { width: 250px; }
-      @include tablet { width: 150px; }
-      @include mobile { width: 50px; }
+      @include desktop { width: 250px; margin-left: 5px; }
+      @include tablet { width: 150px; margin-left: 5px; }
+      @include mobile { width: 0; margin-left: 0 }
 
       transition: 0.3s;
       height: calc(100% - 2px);
@@ -80,19 +110,18 @@ input[type=password]::-ms-clear
       color: #5512B3;
       font-weight: 600;
       background: transparent;
-      margin-left: 5px;
+
 
       &:focus
       {
         @include desktop { width: 300px; }
+        @include tablet { width: 200px; }
+        @include mobile { width: 200px; margin-left: 5px; margin-right: 5px }
       }
 
       &::placeholder
       {
-        @include desktop { color: #5512B3; }
-        @include tablet { color: #5512B3; }
-        @include mobile { color: transparent; }
-
+        color: #5512B3;
         font-style: italic;
       }
     }
@@ -145,7 +174,7 @@ input[type=password]::-ms-clear
   & > div
   {
     padding: 10px;
-    box-shadow: 0 0 3px #00000060;
+    //box-shadow: 0 0 3px #00000060;
     border-radius: 5px;
     text-align: center;
     position: relative;
@@ -270,64 +299,90 @@ input[type=password]::-ms-clear
   &-dashboard
   {
     display: flex;
-    justify-content: space-between;
-    padding: 5px 10px;
     align-items: center;
-    box-shadow: 0 0 5px #00000060;
-    margin: 5px 0;
-    border-radius: 5px;
+    justify-content: center;
     text-align: left;
+    height: calc(100% - 60px);
+    margin-top: 5px;
+    box-shadow: 0 0 5px #00000060;
+    border-radius: 5px;
 
-    p, & h3
+    padding: 10px;
+
+    > div
     {
-      margin: 0;
-    }
-    h3
-    {
-      white-space: nowrap;
-      overflow:hidden !important;
-      text-overflow: ellipsis;
-      max-width: 100%;
-    }
-    p
-    {
-      white-space: nowrap;
-      overflow:hidden !important;
-      text-overflow: ellipsis;
-      max-width: 100%;
-      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      > *
+      {
+        margin: 5px 0;
+      }
+
+      > input
+      {
+        display: none;
+      }
+      > span
+      {
+        &:after
+        {
+          margin-left: 30px;
+          font-weight: 800;
+        }
+        &:before
+        {
+          content: '';
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+        }
+      }
     }
 
-    & > div
-    {
-      width: calc(100% - 50px);
-    }
 
-    svg
+    &-start
     {
-      margin-left: 5px;
-      margin-right: 10px;
-    }
+      &:after
+      {
+        content: 'Online';
+        color: #21c282;
+      }
 
-    &-send
-    {
-      color: #21C282;
-      background: #21C28220;
+      &:before
+      {
+        background: #21c282;
+      }
     }
-    &-received
+    &-pending
     {
-      color: #67A7F4;
-      background: #67A7F420;
+      &:after
+      {
+        content: 'Pending...';
+        font-style: italic;
+        color: #C2A721;
+      }
+
+      &:before
+      {
+        background: #C2A721;
+      }
     }
-    &-group
+    &-stop
     {
-      color: #F58803;
-      background: #F5880320;
-    }
-    &-power
-    {
-      color: #E01079;
-      background: #E0107920;
+      &:after
+      {
+        content: 'Offline';
+        color: #C22147;
+      }
+
+      &:before
+      {
+        background: #C22147;
+      }
     }
   }
 }
@@ -380,6 +435,8 @@ input[type=password]::-ms-clear
     overflow: hidden;
     overflow-y: auto;
     cursor: text;
+    background: #BFA6E2;
+    transition: 0.3s;
 
     p
     {
@@ -418,6 +475,15 @@ input[type=password]::-ms-clear
         font-style: italic;
         color: #9E63FF;
       }
+    }
+
+    &:hover
+    {
+      box-shadow: 0 0 5px #00000060 inset;
+    }
+    &:focus
+    {
+      box-shadow: 0 0 10px #00000060 inset;
     }
   }
 }

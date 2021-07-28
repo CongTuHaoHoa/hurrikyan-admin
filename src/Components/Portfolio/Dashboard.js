@@ -1,5 +1,5 @@
 import * as UI from '@material-ui/core'
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 const Dashboard = (props) =>
 {
@@ -31,15 +31,9 @@ const Dashboard = (props) =>
         return () => window.removeEventListener('resize', set)
     })
 
-    useEffect(() =>
-    {
-        setW(isBindW())
-    }, [])
-
-
     return  <div className='portfolio-mostview'>
         <div className='portfolio-mostview-img' id='---portfolio-mostview-img-view'>
-            <img className={`portfolio-mostview-img-${ w ? 'w' : 'h' }`} src={ img } alt='Most view' id='---portfolio-mostview-img'/>
+            <img className={`portfolio-mostview-img-${ w ? 'w' : 'h' }`} src={ img } onLoad={ () => setW(isBindW()) } alt='Most view' id='---portfolio-mostview-img'/>
         </div>
         <h2>{ title }</h2>
         <div className='portfolio-mostview-details'>

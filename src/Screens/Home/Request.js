@@ -1,5 +1,5 @@
 // import * as UI from '@material-ui/core'
-// import * as Icon from '@material-ui/icons'
+import * as Icon from '@material-ui/icons'
 import * as actionTitle from '../../Redux/actions/title'
 import * as actionLoader from '../../Redux/actions/loader'
 
@@ -11,7 +11,7 @@ const Request = (props) =>
 {
     useEffect(() =>
     {
-        props.setTitle({ title : 'Yêu cầu', path : '/request' })
+        props.setTitle({ title : 'Yêu cầu', path : '/request', icon: <Icon.Description/> })
         // eslint-disable-next-line
     }, [])
 

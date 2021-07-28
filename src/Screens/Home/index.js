@@ -49,7 +49,12 @@ const Home = (props) =>
     return  <>
         <UI.AppBar position="fixed" className='appbar'>
             <UI.Toolbar style={ { justifyContent: "space-between" } }>
-                <UI.Typography variant="h6">{ props.title.title }</UI.Typography>
+                <div className='appbar-title'>
+                    { props.title.icon }
+                    {/*<Icon.Dashboard/>*/}
+                    <UI.Typography variant="h6">{ props.title.title }</UI.Typography>
+                </div>
+
                 <div className='appbar-search' onClick={ onFocus }>
                     <Icon.Search color='primary'/>
                     <input placeholder='Tìm kiếm...' ref={ (input) => { ref = input } }/>

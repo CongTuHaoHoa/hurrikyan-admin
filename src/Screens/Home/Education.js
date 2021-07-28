@@ -1,5 +1,5 @@
 // import * as UI from '@material-ui/core'
-// import * as Icon from '@material-ui/icons'
+import * as Icon from '@material-ui/icons'
 import * as actionTitle from '../../Redux/actions/title'
 import * as actionLoader from '../../Redux/actions/loader'
 
@@ -11,7 +11,7 @@ const Education = (props) =>
 {
     useEffect(() =>
     {
-        props.setTitle({ title : 'Học vấn', path : '/education' })
+        props.setTitle({ title : 'Học vấn', path : '/education', icon: <Icon.School/> })
         // eslint-disable-next-line
     }, [])
     return  <>

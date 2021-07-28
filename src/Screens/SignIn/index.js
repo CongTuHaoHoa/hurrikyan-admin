@@ -17,7 +17,8 @@ const SignIn = (props) =>
     const onChange = (event) =>
     {
         setErrors({ ...errors, [event.target.name] : '' })
-        setData({ ...data, [event.target.name] : event.target.value })
+        const value = event.target.name === 'code' && event.target.value.toString().length > 6 ? event.target.value.toString().substring(0, 6) : event.target.value
+        setData({ ...data, [event.target.name] : value })
     }
     const onSignIn = (event) =>
     {
@@ -29,16 +30,19 @@ const SignIn = (props) =>
         {
             if (r.errors)
             {
+                let error = { username : '', password : '', code: '' }
                 r.errors.forEach(err =>
                 {
                     switch (err.code)
                     {
-                        case 3001: setErrors({ ...errors, username: '* Hãy nhập tài khoản' }); break;
-                        case 3002: setErrors({ ...errors, password: '* Hãy nhập mật khẩu' }); break;
-                        case 3003: setErrors({ ...errors, username: '* Sai tài khoản hoặc mật khẩu', password: '* Sai tài khoản hoặc mật khẩu' }); break;
-                        default: break;
+                        case 3001: error = { ...error, username: '* Hãy nhập tài khoản' }; break;
+                        case 3002: error = { ...error, password: '* Hãy nhập mật khẩu' }; break;
+                        case 3003: error = { ...error, username: '* Sai tài khoản hoặc mật khẩu', password: '* Sai tài khoản hoặc mật khẩu' }; break;
+                        default: error = { ...error, username : ' ', password: '* Lỗi không xác định, thử lại sau' }; break;
                     }
                 })
+
+                setErrors(error)
             }
             else setKey(r.key)
 
@@ -56,15 +60,21 @@ const SignIn = (props) =>
         {
             if (r.errors)
             {
+                let error = { username : '', password : '', code: '' }
+
                 r.errors.forEach(err =>
                 {
                     switch (err.code)
                     {
-                        case 3004: setErrors({ ...errors, code: '* Hãy nhập mã xác thực' }); break;
-                        case 3006: setErrors({ ...errors, code: '* Sai mã xác thực' }); break;
-                        default: break;
+                        case 3004: error = { ...errors, code: '* Hãy nhập mã xác thực' }; break;
+                        case 3006: error = { ...errors, code: '* Sai mã xác thực' }; break;
+                        default: error = { ...errors, code: '* Lỗi không xác định' }; break;
                     }
                 })
+
+                setErrors(error)
+
+                props.setLoader(false)
             }
             else props.setSignIn(true)
         })
@@ -101,21 +111,35 @@ const SignIn = (props) =>
                 <UI.FormControl className='signin-control'>
                     <UI.TextField helperText={ errors.username } error={ errors.username.length !== 0 } type='text' value={ data.username } onChange={ onChange } name='username' label='Tên đăng nhập' InputProps={{ startAdornment: <Icon.Person className='tf-icon' color='primary'/>,}}/>
                     <UI.TextField  helperText={ errors.password } error={ errors.password.length !== 0 } type={ showPass ? 'text' : 'password'} value={ data.password } onChange={ onChange } name='password' label='Mật khẩu' InputProps={{ startAdornment: <Icon.VpnKey className='tf-icon' color='primary'/>, endAdornment: <UI.IconButton onClick={ () => setShowPass(!showPass)}>{ showPass ? <Icon.Visibility color='primary' /> : <Icon.VisibilityOff />}</UI.IconButton> }}/>
-                    <UI.Button type='submit' variant='contained' color='primary'>Đăng nhập</UI.Button>
+                    <UI.Button disabled={ props.loader } type='submit' variant='contained' color='primary'>
+                        Đăng nhập
+                        <UI.CircularProgress size={ props.loader ? 20 : 0 } color='inherit' style={ { marginLeft : props.loader ? 10 : 0 } }/>
+                    </UI.Button>
                 </UI.FormControl>
             </form>
             <form onSubmit={ onValidate }>
                 <UI.FormControl className='signin-control'>
                     <div>
-                        <UI.IconButton onClick={ back } type='button' variant='contained' color='primary'><Icon.ArrowBack/></UI.IconButton>
+                        <UI.IconButton disabled={ props.loader } onClick={ back } type='button' variant='contained' color='primary'><Icon.ArrowBack/></UI.IconButton>
                     </div>
-                    <UI.TextField helperText={ errors.code } error={ errors.code.length !== 0 } type='text' value={ data.code } onChange={ onChange } name='code' label='Mã xác thực' InputProps={{ startAdornment: <Icon.Lock className='tf-icon' color='primary'/>,}}/>
-                    <UI.Button type='submit' variant='contained' color='primary'>Xác thực</UI.Button>
-                    <UI.Button type='button' color='primary' onClick={ refreshCode }>Gửi lại mã</UI.Button>
+                    <UI.TextField helperText={ errors.code } error={ errors.code.length !== 0 } type='number' value={ data.code } onChange={ onChange } name='code' label='Mã xác thực' InputProps={{ startAdornment: <Icon.Lock className='tf-icon' color='primary'/>,}}/>
+                    <UI.Button disabled={ props.loader } type='submit' variant='contained' color='primary'>
+                        Xác thực
+                        <UI.CircularProgress size={ props.loader ? 20 : 0 } color='inherit' style={ { marginLeft : props.loader ? 10 : 0 } }/>
+                    </UI.Button>
+                    <UI.Button disabled={ props.loader } type='button' color='primary' onClick={ refreshCode }>
+                        Gửi lại mã
+                        <UI.CircularProgress size={ props.loader ? 20 : 0 } color='primary' style={ { marginLeft : props.loader ? 10 : 0 } }/>
+                    </UI.Button>
                 </UI.FormControl>
             </form>
         </div>
     </div>
+}
+
+const mapStateToProps = (state) =>
+{
+    return { loader : state.loader.loader }
 }
 
 const mapDispatchToProps = (dispatch) =>
@@ -127,4 +151,4 @@ const mapDispatchToProps = (dispatch) =>
     }
 }
 
-export default connect(null, mapDispatchToProps)(SignIn)
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn)

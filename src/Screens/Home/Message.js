@@ -1,5 +1,5 @@
 // import * as UI from '@material-ui/core'
-// import * as Icon from '@material-ui/icons'
+import * as Icon from '@material-ui/icons'
 import * as actionTitle from '../../Redux/actions/title'
 import * as actionLoader from '../../Redux/actions/loader'
 
@@ -11,7 +11,7 @@ const Message = (props) =>
 {
     useEffect(() =>
     {
-        props.setTitle({ title : 'Tin nhắn', path : '/message' })
+        props.setTitle({ title : 'Tin nhắn', path : '/message', icon: <Icon.Inbox/> })
         // eslint-disable-next-line
     }, [])
     return  <>

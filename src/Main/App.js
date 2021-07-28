@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import SignIn from "../Screens/SignIn";
 import Home from "../Screens/Home";
 import API from "../Config/api"
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import * as actionLoader from "../Redux/actions/loader";
 
 const App = (props) =>
@@ -12,10 +12,18 @@ const App = (props) =>
 
   useEffect(() =>
   {
-    API.GET('hurrikyan').then(r =>
+    props.socket.emit('admin')
+
+    API.POST('visit', { path : 'ad' }).then(() =>
     {
-      props.setSignIn(!r.errors)
-      setLoaded(true)
+      API.GET('hurrikyan').then(r =>
+      {
+        props.setSignIn(!r.errors)
+
+        setLoaded(true)
+        let bodys = document.querySelector('body')
+        bodys.classList.add('loaded')
+      })
     })
 
     // eslint-disable-next-line
@@ -38,7 +46,7 @@ const App = (props) =>
 
 const mapStateToProps = (state) =>
 {
-    return { loader : state.loader.loader, signIn : state.loader.signIn }
+    return { loader : state.loader.loader, signIn : state.loader.signIn, socket: state.socket }
 }
 
 const mapDispatchToProps = (dispatch) =>

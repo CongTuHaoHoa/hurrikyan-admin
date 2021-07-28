@@ -51,4 +51,11 @@ const output =
     }
 }
 
-export default output
+const getData = (type, obj = output) =>
+{
+    const split = type.split('.')
+    if (split[1]?.length) return getData(type.substring(split[0].length + 1), obj[split[0]])
+    else return obj[split[0]]
+}
+
+export default getData

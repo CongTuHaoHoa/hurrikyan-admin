@@ -1,7 +1,7 @@
 import { createRef, useEffect, useState } from "react";
 
 const error = '#E01079'
-const help = '#1FCAFF'
+const help = '#1481a1'
 
 const helpText = `
 --help  :   Mở bảng trợ giúp.

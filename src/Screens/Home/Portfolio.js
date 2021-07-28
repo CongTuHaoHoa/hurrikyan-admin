@@ -1,5 +1,5 @@
 // import * as UI from '@material-ui/core'
-// import * as Icon from '@material-ui/icons'
+import * as Icon from '@material-ui/icons'
 import * as actionTitle from '../../Redux/actions/title'
 import * as actionLoader from '../../Redux/actions/loader'
 
@@ -11,7 +11,7 @@ const Portfolio = (props) =>
 {
     useEffect(() =>
     {
-        props.setTitle({ title : 'Công việc', path : '/portfolio' })
+        props.setTitle({ title : 'Công việc', path : '/portfolio', icon: <Icon.Work/> })
         // eslint-disable-next-line
     }, [])
 
