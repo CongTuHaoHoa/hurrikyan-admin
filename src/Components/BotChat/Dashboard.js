@@ -1,5 +1,5 @@
-import * as UI from '@material-ui/core'
-import * as Icon from '@material-ui/icons'
+import * as UI from '@mui/material'
+import * as Icon from '@mui/icons-material'
 import { useEffect, useState } from "react"
 import API from "../../Config/api"
 import * as actionLoader from "../../Redux/actions/loader"
@@ -61,7 +61,7 @@ const Dashboard = (props) =>
     {
         props.setLoaded(true)
 
-        API.POST('botchat').then(r =>
+        API.POST('botchat').then(() =>
         {
             props.setLoaded(false)
         })

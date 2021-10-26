@@ -1,5 +1,5 @@
-import * as UI from '@material-ui/core'
-import * as Icon from '@material-ui/icons'
+import * as UI from '@mui/material'
+import * as Icon from '@mui/icons-material'
 import * as actionTitle from '../../Redux/actions/title'
 import * as actionLoader from '../../Redux/actions/loader'
 
@@ -77,7 +77,7 @@ const Home = (props) =>
                 </UI.ListItem>
                 <UI.ListItem button onClick={ () => changePath('/message') } selected={ is('/message') }>
                     <UI.ListItemIcon>
-                        <UI.Badge badgeContent={4} color="error">
+                        <UI.Badge badgeContent={4} color="secondary">
                             <Icon.Inbox color='primary'/>
                         </UI.Badge>
                     </UI.ListItemIcon>
@@ -85,7 +85,7 @@ const Home = (props) =>
                 </UI.ListItem>
                 <UI.ListItem button onClick={ () => changePath('/request') } selected={ is('/request') }>
                     <UI.ListItemIcon>
-                        <UI.Badge badgeContent={4} color="error">
+                        <UI.Badge badgeContent={4} color="secondary">
                             <Icon.Description color='primary'/>
                         </UI.Badge>
                     </UI.ListItemIcon>
@@ -96,6 +96,12 @@ const Home = (props) =>
                         <Icon.Settings color='primary'/>
                     </UI.ListItemIcon>
                     <UI.ListItemText primary='Cài đặt'/>
+                </UI.ListItem>
+                <UI.ListItem button component="a" href="https://hurrikyan.com" rel="noopener noreferrer" target="_blank">
+                    <UI.ListItemIcon>
+                        <Icon.Public color='primary'/>
+                    </UI.ListItemIcon>
+                    <UI.ListItemText primary='Đến trang web'/>
                 </UI.ListItem>
             </UI.List>
             <UI.List>

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './StyleSheets/index.scss'
 import App from './Main/App';
 import reportWebVitals from './Main/reportWebVitals';
-import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter } from "react-router-dom"
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
@@ -18,18 +18,24 @@ const theme = createTheme({
         },
         secondary:
         {
-            main: '#1FCAFF'
+            main: '#FF2C95'
         },
         error:
         {
-            main: '#E01079'
+            main: '#ff6085'
         },
         text:
         {
             primary: '#5512B3'
-            // default: '#17011C',
-            // paper: '#17011C'
-        }
+        },
+        success:
+        {
+            main: '#9ad92f'
+        },
+        warning:
+        {
+            main: '#E0A510'
+        },
     },
     typography:
     {

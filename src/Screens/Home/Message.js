@@ -1,5 +1,5 @@
 // import * as UI from '@material-ui/core'
-import * as Icon from '@material-ui/icons'
+import * as Icon from '@mui/icons-material'
 import * as actionTitle from '../../Redux/actions/title'
 import * as actionLoader from '../../Redux/actions/loader'
 

@@ -1,4 +1,4 @@
-import * as Icon from '@material-ui/icons'
+import * as Icon from '@mui/icons-material'
 
 const getDatabaseData = (type) =>
 {

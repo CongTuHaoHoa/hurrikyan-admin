@@ -5,6 +5,8 @@ import Home from "../Screens/Home";
 import API from "../Config/api"
 import { useEffect, useState } from "react";
 import * as actionLoader from "../Redux/actions/loader";
+import Test from "../Screens/Test";
+
 
 const App = (props) =>
 {
@@ -36,11 +38,14 @@ const App = (props) =>
           <Route exact path='/signin'>
             { props.signIn ? <Redirect to="/" /> : <SignIn/> }
           </Route>
+          <Route path='/test'>
+            <Test/>
+          </Route>
           <Route path='/'>
             { !props.signIn ? <Redirect to="/signin" /> : <Home/> }
           </Route>
         </Switch>
-    : null }
+        : null }
   </>
 }
 
